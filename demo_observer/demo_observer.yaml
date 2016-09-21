@@ -1,0 +1,12 @@
+---
+demo_observer:
+  locations:
+    - table
+    - shelf1
+    - shelf2
+    - shelf3
+    - sidetable
+    - sofa
+    - bathroom
+    - outside
+  area_size: 0.5

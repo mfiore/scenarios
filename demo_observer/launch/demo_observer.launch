@@ -1,0 +1,6 @@
+<launch>
+  <rosparam command="load" file="$(find demo_observer)/demo_observer.yaml" />
+  <include file="$(find human_action_monitor)/launch/human_action_monitor.launch" />
+  <node name="demo_observer" pkg="demo_observer" type="demo_observer" output="screen"/>
+
+</launch>
