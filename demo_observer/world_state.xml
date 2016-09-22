@@ -1,0 +1,10 @@
+<xml>
+	<Fact model='PR2_ROBOT' subject='human1' predicate='at' value='livingroom'/> 
+	<Fact model='PR2_ROBOT' subject='mug' predicate='at' value='sidetable'/> 
+	<Fact model='PR2_ROBOT' subject='waterbottle' predicate='at' value='shelf1'/> 
+	<Fact model='PR2_ROBOT' subject='teabottle' predicate='at' value='shelf2'/> 
+	<Fact model='PR2_ROBOT' subject='teabottle' predicate='capacity' value='1'/> 
+	<Fact model='PR2_ROBOT' subject='waterbottle' predicate='capacity' value='1'/> 
+	<Fact model='PR2_ROBOT' subject='mug' predicate='capacity' value='0'/> 
+	<Fact model='PR2_ROBOT' subject='human1' predicate='drunk' value='0'/> 
+</xml>
