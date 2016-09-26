@@ -9,23 +9,17 @@ bool Move::checkPreconditions(StringMap parameters) {
 	ROS_INFO("%s - checking preconditions",action_name_.c_str());
 	
 	if (!checkParameterPresence(parameters)) return false;
+	string agent=parameters.at("main_agent");
+	string target=parameters.at("target");
 
 	situation_assessment_msgs::Fact query;
 	query.model=robot_name_;
-	query.subject=parameters.at("main_agent");
-	query.predicate.push_back("at");
+	query.subject=agent;
+	query.predicate.push_back("isInArea");
 
-	string location=queryDatabase(query);
+	vector<string> location=queryDatabaseComplete(query);
 
-	situation_assessment_msgs::Fact connected_query;
-	query.model=robot_name_;
-	query.subject=location;
-	query.predicate.push_back("connected");
-	query.predicate.push_back(parameters.at("target"));
-
-	bool is_connected=std::stoi((queryDatabase(query)));
-	return is_connected;
-
+	return std::find(location.begin(),location.end(),target)==location.end();
 }
 void Move::setPostconditions(StringMap parameters) {
 	// std::vector<situation_assessment_msgs::Fact> facts;

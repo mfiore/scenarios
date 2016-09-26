@@ -37,7 +37,7 @@ int main(int argc,char **argv) {
 
 	Drink drink(node_handle);
 	Fill fill(node_handle);
-	Move move(node_handle);
+	// Move move(node_handle);
 
 	add_area_client_=node_handle.serviceClient<situation_assessment_msgs::AddArea>(
 		"situation_assessment/add_area",1000);
@@ -48,18 +48,23 @@ int main(int argc,char **argv) {
 
 	std::vector<std::string> locations;
 	double area_size;
-	node_handle.getParam("demo_observer/locations",locations);
+	node_handle.getParam("situation_assessment/locations",locations);
 	node_handle.getParam("demo_observer/area_size",area_size);
 	for (string l: locations) {
-		double x,y,z;
-		node_handle.getParam("simulation/starting_position/"+l+"/x",x);
-		node_handle.getParam("simulation/starting_position/"+l+"/y",y);
-		node_handle.getParam("simulation/starting_position/"+l+"/z",z);
+		if (l!="livingroom") {
+			double x,y,z;
+			node_handle.getParam("simulation/starting_position/"+l+"/x",x);
+			node_handle.getParam("simulation/starting_position/"+l+"/y",y);
+			node_handle.getParam("simulation/starting_position/"+l+"/z",z);
 
-		vector<geometry_msgs::Point32> points={createPoint(x-area_size,y-area_size),
-			createPoint(x-area_size,y+area_size),createPoint(x+area_size,y+area_size),createPoint(x+area_size,y-area_size)};
-		addArea(l,points);
+			vector<geometry_msgs::Point32> points={createPoint(x-area_size,y-area_size),
+				createPoint(x-area_size,y+area_size),createPoint(x+area_size,y+area_size),createPoint(x+area_size,y-area_size)};
+			addArea(l,points);
+		}
 	}
+	vector<geometry_msgs::Point32> points={createPoint(-1.5,-2.5),createPoint(-1.5,2.5),
+		createPoint(1.5,2.5),createPoint(1.5,-2.5)};
+	addArea("livingroom",points);
 
 	ros::spin();
 }

@@ -8,17 +8,16 @@ Drink::Drink(ros::NodeHandle node_handle):Action("drink",node_handle) {
 
 bool Drink::checkPreconditions(StringMap parameters) {
 	ROS_INFO("%s - checking preconditions",action_name_.c_str());
-	
+
 	if (!checkParameterPresence(parameters)) return false;
 
-	
 	situation_assessment_msgs::Fact has_query;
 	has_query.model=robot_name_;
 	has_query.subject=parameters.at("main_agent");
 	has_query.predicate.push_back("has");
 	has_query.predicate.push_back(parameters.at("main_object"));
 
-	bool has_object=std::stoi(queryDatabase(has_query));
+	bool has_object=queryDatabase(has_query)=="true";
 
 	if (!has_object) return false;
 

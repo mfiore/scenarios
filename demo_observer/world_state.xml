@@ -5,6 +5,23 @@
 	<Fact model='PR2_ROBOT' subject='teabottle' predicate='at' value='shelf2'/> 
 	<Fact model='PR2_ROBOT' subject='teabottle' predicate='capacity' value='1'/> 
 	<Fact model='PR2_ROBOT' subject='waterbottle' predicate='capacity' value='1'/> 
+	<Fact model='PR2_ROBOT' subject='waterbottle' predicate='type' value='bottle'/> 
+	<Fact model='PR2_ROBOT' subject='teabottle' predicate='type' value='bottle'/> 
 	<Fact model='PR2_ROBOT' subject='mug' predicate='capacity' value='0'/> 
 	<Fact model='PR2_ROBOT' subject='human1' predicate='drunk' value='0'/> 
+<!-- 	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='table'/> 
+	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='sidetable'/> 
+	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='shelf1'/> 
+	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='shelf2'/> 
+	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='shelf3'/> 
+	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='bathroom'/> 
+	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='outside'/> 	
+
+	<Fact model='PR2_ROBOT' subject='table' predicate='connected' value='livingroom'/> 
+	<Fact model='PR2_ROBOT' subject='sidetable' predicate='connected' value='livingroom'/> 
+	<Fact model='PR2_ROBOT' subject='shelf1' predicate='connected' value='livingroom'/> 
+	<Fact model='PR2_ROBOT' subject='shelf2' predicate='connected' value='livingroom'/> 
+	<Fact model='PR2_ROBOT' subject='shelf3' predicate='connected' value='livingroom'/> 
+	<Fact model='PR2_ROBOT' subject='bathroom' predicate='connected' value='livingroom'/> 
+	<Fact model='PR2_ROBOT' subject='outside' predicate='connected' value='livingroom'/> --> 
 </xml>

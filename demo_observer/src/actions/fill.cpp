@@ -14,14 +14,20 @@ bool Fill::checkPreconditions(StringMap parameters) {
 	string agent=parameters.at("main_agent");
 	string object=parameters.at("main_object");
 	string target=parameters.at("target");
+
+	situation_assessment_msgs::Fact object_type_query;
+	object_type_query.model=robot_name_;
+	object_type_query.subject=object;
+	object_type_query.predicate={"type"};
+	string object_type=queryDatabase(object_type_query);
+	if (object_type!="bottle") return false;
+
 	
 	situation_assessment_msgs::Fact has_query;
 	has_query.model=robot_name_;
 	has_query.subject=agent;
 	has_query.predicate.push_back("has");
 	has_query.value.push_back(object);
-
-	ROS_INFO("%s %s %s ",robot_name_.c_str(),agent.c_str(),object.c_str());
 
 	bool has_object=queryDatabase(has_query)!="";
 
