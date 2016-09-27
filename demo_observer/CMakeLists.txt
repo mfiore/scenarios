@@ -121,7 +121,10 @@ include_directories(
 ## Declare a cpp executable
 add_executable(create_mdps src/mdps/create_mdp.cpp src/mdps/DrinkSomething.cpp)
 add_executable(test_mdps src/mdps/test_mdps.cpp src/mdps/DrinkSomething.cpp)
-add_executable(demo_observer src/main.cpp src/actions/drink.cpp src/actions/fill.cpp src/actions/move.cpp)
+add_executable(demo_observer src/main.cpp src/actions/drink.cpp src/actions/fill.cpp 
+
+#src/actions/move.cpp
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

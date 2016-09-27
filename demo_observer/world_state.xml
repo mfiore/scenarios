@@ -1,14 +1,14 @@
 <xml>
-	<Fact model='PR2_ROBOT' subject='human1' predicate='at' value='livingroom'/> 
-	<Fact model='PR2_ROBOT' subject='mug' predicate='at' value='sidetable'/> 
-	<Fact model='PR2_ROBOT' subject='waterbottle' predicate='at' value='shelf1'/> 
-	<Fact model='PR2_ROBOT' subject='teabottle' predicate='at' value='shelf2'/> 
+	<!-- <Fact model='PR2_ROBOT' subject='human1' predicate='isInArea' value='livingroom'/>  -->
+	<!-- <Fact model='PR2_ROBOT' subject='mug' predicate='isInArea' value=<!-- ' -->sidetable'/>  -->
+	<!-- <Fact model='PR2_ROBOT' subject='waterbottle' predicate='isInArea' value='shelf1'/>  -->
+	<!-- <Fact model='PR2_ROBOT' subject='teabottle' predicate='isInArea' value='shelf2'/>  -->
 	<Fact model='PR2_ROBOT' subject='teabottle' predicate='capacity' value='1'/> 
 	<Fact model='PR2_ROBOT' subject='waterbottle' predicate='capacity' value='1'/> 
 	<Fact model='PR2_ROBOT' subject='waterbottle' predicate='type' value='bottle'/> 
 	<Fact model='PR2_ROBOT' subject='teabottle' predicate='type' value='bottle'/> 
 	<Fact model='PR2_ROBOT' subject='mug' predicate='capacity' value='0'/> 
-	<Fact model='PR2_ROBOT' subject='human1' predicate='drunk' value='0'/> 
+	<Fact model='PR2_ROBOT' subject='human1' predicate='hasDrunk' value='0'/> 
 <!-- 	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='table'/> 
 	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='sidetable'/> 
 	<Fact model='PR2_ROBOT' subject='livingroom' predicate='connected' value='shelf1'/> 

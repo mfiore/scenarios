@@ -12,7 +12,8 @@ int main(int argc, char** argv) {
 
 	ROS_INFO("CREATE_MDP - mdp name is %s",mdp_name.c_str());
 
-	std::vector<std::string> locations={"table","sidetable","bathroom","outside","shelf1","shelf2","shelf3","sofa"};
+	std::vector<std::string> locations={"table","sidetable","bathroom","outside","shelf1","shelf2","shelf3",
+	"sofa","livingroom"};
 
 	if (mdp_name=="drink_water") {
 		DrinkSomething drink_water("agent","mug","waterbottle",locations);

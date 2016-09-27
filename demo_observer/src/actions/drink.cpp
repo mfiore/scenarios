@@ -11,6 +11,8 @@ bool Drink::checkPreconditions(StringMap parameters) {
 
 	if (!checkParameterPresence(parameters)) return false;
 
+	
+
 	situation_assessment_msgs::Fact has_query;
 	has_query.model=robot_name_;
 	has_query.subject=parameters.at("main_agent");

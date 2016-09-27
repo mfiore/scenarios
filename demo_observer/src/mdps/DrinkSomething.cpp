@@ -20,7 +20,7 @@ DrinkSomething::DrinkSomething(std::string agent_name, std::string glass_name, s
     glass_loc_var_ = glass_name_+"_isAt";
     glass_capacity_var_ = glass_name_+"_capacity";
     bottle_capacity_var_ = bottle_name_+"_capacity";
-    has_drunk_var_ = "has_drunk";
+    has_drunk_var_ = agent_name_+"_hasDrunk";
 
     variables_.push_back(agent_loc_var_);
     variables_.push_back(bottle_loc_var_);
@@ -49,8 +49,8 @@ DrinkSomething::DrinkSomething(std::string agent_name, std::string glass_name, s
     for (string l : locations) {
         actions.push_back(agent_name_ + "_move_" + l);
     }
-    actions.push_back(agent_name_ + "_take_" + glass_name_);
-    actions.push_back(agent_name_ + "_take_" + bottle_name_);
+    actions.push_back(agent_name_ + "_pick_" + glass_name_);
+    actions.push_back(agent_name_ + "_pick_" + bottle_name_);
     actions.push_back(agent_name_ + "_fill_" + glass_name_ + "_" + bottle_name_);
     actions.push_back(agent_name_ + "_drink_" + glass_name_);
 
@@ -59,6 +59,7 @@ DrinkSomething::DrinkSomething(std::string agent_name, std::string glass_name, s
     parameters_.push_back(agent_name_);
     vector<string> par_var;
     par_var.push_back(agent_loc_var_);
+    par_var.push_back(has_drunk_var_);
     parameter_variables_[agent_name_] = par_var;
     variable_parameter_[par_var[0]] = agent_name_;
 
@@ -84,9 +85,9 @@ VarStateProb DrinkSomething::transitionFunction(VariableSet state, string action
     VarStateProb future_beliefs;
     string action_name = action_parameters[1];
 
-    if (action_name == "take" && action_parameters[2] == glass_name_) {
+    if (action_name == "pick" && action_parameters[2] == glass_name_) {
         future_beliefs = MdpBasicActions::applyTake(agent_isAt, glass_isAt, agent_name_, glass_loc_var_, state);
-    } else if (action_name == "take" && action_parameters[2] == bottle_name_) {
+    } else if (action_name == "pick" && action_parameters[2] == bottle_name_) {
         future_beliefs = MdpBasicActions::applyTake(agent_isAt, waterbottle_isAt, agent_name_, bottle_loc_var_, state);
     } else if (action_name == "move") {
         future_beliefs = MdpBasicActions::applyMove(agent_loc_var_, action_parameters[2], state);
