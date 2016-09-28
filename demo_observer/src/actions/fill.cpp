@@ -44,18 +44,18 @@ bool Fill::checkPreconditions(StringMap parameters) {
 
 	// ROS_INFO("capacity is %d",object_capacity);
 	if (object_capacity==0) return false;
-	return true;
+
 	situation_assessment_msgs::Fact agent_isAt_query,target_isAt_query;
 	agent_isAt_query.model=robot_name_;
-	agent_isAt_query.subject=parameters.at("main_agent");
-	agent_isAt_query.predicate.push_back("isInArea");
+	agent_isAt_query.subject=agent;
+	agent_isAt_query.predicate.push_back("isAt");
 
-	std::vector<std::string> agent_location=queryDatabaseComplete(agent_isAt_query);
+	std::string agent_location=queryDatabase(agent_isAt_query);
 
 	target_isAt_query=agent_isAt_query;
 	target_isAt_query.subject=target;
 
-	std::vector<std::string> target_location=queryDatabaseComplete(target_isAt_query);
+	std::string target_location=queryDatabase(target_isAt_query);
 
 	return agent_location==target_location;
 
