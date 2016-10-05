@@ -1,5 +1,9 @@
 #include <ros/ros.h>
 #include "demo_observer/mdps/DrinkSomething.h"
+#include "demo_observer/mdps/ReadBook.h"
+#include "demo_observer/mdps/GoOut.h"
+#include "demo_observer/mdps/WatchTv.h"
+
 #include "Mdp.h"
 #include <string>
 #include <vector>
@@ -16,22 +20,38 @@ int main(int argc, char** argv) {
 
 	std::vector<std::string> locations = {"table", "sidetable", "bathroom", "outside", "shelf1", "shelf2", "shelf3", "sofa"};
 	  std::map<std::string, std::string> initial_state;
-	  initial_state["agent_isAt"] = "table";
+	  initial_state["agent_isAt"] = "livingroom";
 	  initial_state["mug_isAt"] = "sidetable";
-	  initial_state["waterbottle_isAt"] = "shelf1";
-	  initial_state["teabottle_isAt"] = "shelf2";
+	  initial_state["waterbottle_isAt"] = "shelf2";
+	  initial_state["teabottle_isAt"] = "shelf3";
 	  initial_state["has_drunk"] = "0";
-	  initial_state["mug_capacity"] = "0";
+	  initial_state["mug_contains"] = "nothing";
 	  initial_state["waterbottle_capacity"] = "1";
+	  initial_state["teabottle_capacity"] = "1";
+	  initial_state["book1_isAt"] = "shelf1";
+	  initial_state["book2_isAt"] = "table";
+	  initial_state["book3_isAt"] = "shelf2";
+	  initial_state["keys_isAt"] = "shelf1";
+	  initial_state["remote_isAt"] = "sidetable";
 	  VariableSet v_i;
 	  v_i.set = initial_state;
 
 	  std::map<std::string,std::string> parameter_map;
 	  parameter_map["agent"]="agent";
+	  parameter_map["object"]="mug";
+	  parameter_map["placement"]="table";
 	  
+	  ROS_INFO("Reading mdp");
+
 	  Mdp drink_water;
-	  drink_water.readMdp("/home/mfiore/"+mdp_name);
-	  drink_water.assignParameters(parameter_map);
-	  drink_water.simulate(8, v_i);
+	  if (drink_water.readMdp("/home/mfiore/ros_workspaces/indigo_ws/src/scenarios/demo_observer/mdp_models/"+mdp_name)) {
+	  	ROS_INFO("Read mdp");
+	  	drink_water.assignParameters(parameter_map);
+		  drink_water.simulate(8, v_i);
+		// drink_water.printTransitionFunction();
+		}
+		else {
+			ROS_WARN("Error reading mdp");
+		}
 
 }

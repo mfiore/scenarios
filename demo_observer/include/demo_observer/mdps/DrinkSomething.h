@@ -24,7 +24,8 @@
 using namespace std;
 class DrinkSomething: public ConcreteMdp {
 public:
-    DrinkSomething(string agent_name, string glass_name, string bottle_name, std::vector<std::string> locations);
+    DrinkSomething(string agent_name, string glass_name, string bottle_name, 
+        std::vector<std::string> locations,std::map<std::string,std::vector<std::string> > connections);
     DrinkSomething(const DrinkSomething& orig);
     virtual ~DrinkSomething();
     
@@ -38,15 +39,17 @@ private:
     string agent_loc_var_;
     string bottle_loc_var_;
     string glass_loc_var_;
-    string glass_capacity_var_;
+    // string glass_capacity_var_;
     string bottle_capacity_var_;
     string has_drunk_var_;
+    string glass_contains_var_;
     
     string agent_name_;
     string glass_name_;
     string bottle_name_;
+    string liquid_name_;
     
-    
+    std::map<std::string,std::vector<std::string> > connections_;
     
 };
 #endif /* DRINKSOMETHING_H */

@@ -70,17 +70,17 @@ void Fill::setPostconditions(StringMap parameters) {
 	string target=parameters.at("target");
 	string object=parameters.at("main_object");
 
-	situation_assessment_msgs::Fact target_capacity,object_capacity;
-	target_capacity.model=robot_name_;
-	target_capacity.subject=target;
-	target_capacity.predicate.push_back("capacity");
-	target_capacity.value.push_back("1");
+	situation_assessment_msgs::Fact target_contains, object_capacity;
+	target_contains.model=robot_name_;
+	target_contains.subject=target;
+	target_contains.predicate.push_back("contains");
+	target_contains.value.push_back(object);
 
-	object_capacity=target_capacity;
+	object_capacity.model=robot_name_;
 	object_capacity.subject=object;
-	object_capacity.value.clear();
+	object_capacity.predicate.push_back("capacity");
 	object_capacity.value.push_back("0");
 
-	std::vector<situation_assessment_msgs::Fact> fact_vector={target_capacity,object_capacity};
+	std::vector<situation_assessment_msgs::Fact> fact_vector={target_contains,object_capacity};
 	setFacts(fact_vector);
 }

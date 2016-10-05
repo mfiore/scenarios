@@ -111,6 +111,7 @@ include_directories(
   include
   ${catkin_INCLUDE_DIRS}
   $ENV{MDP_DIR}
+  $ENV{EIGEN_DIR}
 )
 
 ## Declare a cpp library
@@ -119,8 +120,26 @@ include_directories(
 # )
 
 ## Declare a cpp executable
-add_executable(create_mdps src/mdps/create_mdp.cpp src/mdps/DrinkSomething.cpp)
-add_executable(test_mdps src/mdps/test_mdps.cpp src/mdps/DrinkSomething.cpp)
+add_executable(create_mdps src/mdps/create_mdp.cpp 
+src/mdps/DrinkSomething.cpp
+src/mdps/ReadBook.cpp
+src/mdps/GoOut.cpp
+src/mdps/WatchTv.cpp
+src/mdps/CleanObject.cpp
+src/mdps/CleanRoom.cpp
+src/mdps/CleanBooks.cpp
+
+)
+add_executable(test_mdps src/mdps/test_mdps.cpp 
+src/mdps/DrinkSomething.cpp
+src/mdps/ReadBook.cpp
+src/mdps/GoOut.cpp
+src/mdps/WatchTv.cpp
+src/mdps/CleanRoom.cpp
+src/mdps/CleanObject.cpp
+src/mdps/CleanBooks.cpp
+
+)
 add_executable(demo_observer src/main.cpp src/actions/drink.cpp src/actions/fill.cpp 
 
 #src/actions/move.cpp
