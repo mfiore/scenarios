@@ -47,7 +47,7 @@ bool Fill::checkPreconditions(StringMap parameters) {
 
 	situation_assessment_msgs::Fact agent_isAt_query,target_isAt_query;
 	agent_isAt_query.model=robot_name_;
-	agent_isAt_query.subject=agent;
+	agent_isAt_query.subject=agent+"_torso";
 	agent_isAt_query.predicate.push_back("isAt");
 
 	std::string agent_location=queryDatabase(agent_isAt_query);

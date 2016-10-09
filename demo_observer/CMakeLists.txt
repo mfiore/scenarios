@@ -156,7 +156,7 @@ add_executable(demo_observer src/main.cpp src/actions/drink.cpp src/actions/fill
  )
  target_link_libraries(test_mdps
    ${catkin_LIBRARIES}
-   $ENV{MDP_DIR}/dist/Debug/GNU-Linux/libpomdp.so
+   $ENV{MDP_DIR}/dist/Release/GNU-Linux/libpomdp.a
  ) 
 
  target_link_libraries(demo_observer

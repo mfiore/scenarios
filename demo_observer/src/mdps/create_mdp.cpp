@@ -19,20 +19,30 @@ int main(int argc, char** argv) {
 
 	ROS_INFO("CREATE_MDP - mdp name is %s",mdp_name.c_str());
 
-	std::vector<std::string> locations={"table","sidetable","bathroom","outside","shelf1","shelf2","shelf3",
-	"sofa","livingroom"};
+	// std::vector<std::string> locations={"table","sidetable","bathroom","outside","shelf1","shelf2","shelf3",
+	// std::vector<std::string> locations={"livingroom","table","outside","shelf1","shelf2","sofa"};
+	std::vector<std::string> locations={"livingroom","outside","sofa"};
 
 
 	std::map<std::string,std::vector<std::string> > connections;
-	connections["livingroom"]={"table","sidetable","bathroom","outside","shelf1","shelf2","shelf3","sofa"};
-	connections["table"]={"livingroom","shelf1"};
-	connections["sidetable"]={"sofa","livingroom"};
-	connections["bathroom"]={"livingroom"};
+	// connections["livingroom"]={"table","sidetable","bathroom","outside","shelf1","shelf2","shelf3","sofa"};
+	// connections["table"]={"livingroom","shelf1"};
+	// connections["sidetable"]={"sofa","livingroom"};
+	// connections["bathroom"]={"livingroom"};
+	// connections["outside"]={"livingroom"};
+	// connections["shelf1"]={"table","livingroom"};
+	// connections["shelf2"]={"livingroom"};
+	// connections["shelf3"]={"sidetable","livingroom"};
+	// connections["sofa"]={"sidetable","livingroom"};
+	// connections["livingroom"]={"table","outside","shelf1","shelf2","sofa"};
+	// connections["table"]={"livingroom","shelf1","shelf2"};
+	// connections["outside"]={"livingroom"};
+	// connections["shelf1"]={"table","livingroom"};
+	// connections["shelf2"]={"table","livingroom","sofa"};
+	// connections["sofa"]={"livingroom","shelf2"};	
+	connections["livingroom"]={"outside","sofa"};
 	connections["outside"]={"livingroom"};
-	connections["shelf1"]={"table","livingroom"};
-	connections["shelf2"]={"livingroom"};
-	connections["shelf3"]={"sidetable","livingroom"};
-	connections["sofa"]={"sidetable","livingroom"};
+	connections["sofa"]={"livingroom"};
 
 	if (mdp_name=="drink_water") {
 		DrinkSomething drink_water("agent","mug","waterbottle",locations,connections);
@@ -61,7 +71,7 @@ int main(int argc, char** argv) {
 		// clean_object.create("clean_object",true,false);
 	}	
 	else if (mdp_name=="clean_books") {
-		CleanBooks clean_books("agent","shelf1",locations,connections);
+		CleanBooks clean_books("agent","shelf2",locations,connections);
 		clean_books.create("clean_books",true);
 		// CleanObject clean_object("agent",locations);
 		// clean_object.create("clean_object",true,false);
