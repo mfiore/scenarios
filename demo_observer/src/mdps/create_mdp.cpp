@@ -21,8 +21,9 @@ int main(int argc, char** argv) {
 
 	// std::vector<std::string> locations={"table","sidetable","bathroom","outside","shelf1","shelf2","shelf3",
 	// std::vector<std::string> locations={"livingroom","table","outside","shelf1","shelf2","sofa"};
-	std::vector<std::string> locations={"livingroom","outside","sofa"};
-
+	// std::vector<std::string> locations={"livingroom","outside","sofa"};
+	std::vector<std::string> locations={"table","outside","shelf1","shelf2","sofa"};
+// 
 
 	std::map<std::string,std::vector<std::string> > connections;
 	// connections["livingroom"]={"table","sidetable","bathroom","outside","shelf1","shelf2","shelf3","sofa"};
@@ -40,9 +41,16 @@ int main(int argc, char** argv) {
 	// connections["shelf1"]={"table","livingroom"};
 	// connections["shelf2"]={"table","livingroom","sofa"};
 	// connections["sofa"]={"livingroom","shelf2"};	
-	connections["livingroom"]={"outside","sofa"};
-	connections["outside"]={"livingroom"};
-	connections["sofa"]={"livingroom"};
+	// connections["livingroom"]={"outside","sofa"};
+	// connections["outside"]={"livingroom"};
+	// connections["sofa"]={"livingroom"};
+	// 
+
+	connections["table"]={"shelf1","shelf2","outside","sofa"};
+	connections["outside"]={"table"};
+	connections["shelf1"]={"table"};
+	connections["shelf2"]={"table"};
+	connections["sofa"]={"table"};	
 
 	if (mdp_name=="drink_water") {
 		DrinkSomething drink_water("agent","mug","waterbottle",locations,connections);

@@ -80,15 +80,18 @@ VarStateProb CleanBooks::transitionFunction(VariableSet state, string action) {
 
     bool has_book=book1_loc==agent_name_ || book2_loc==agent_name_ || book3_loc==agent_name_;
 
-    if (action_name == "pick" && !has_book && action_parameters[2]==(book_name_+"1")) {
+    if (action_name == "pick" && !has_book && action_parameters[2]==(book_name_+"1")
+        && book1_loc!=place_location_name_) {
         future_beliefs = MdpBasicActions::applyTake(agent_isAt, book1_loc, agent_name_,
          book1_loc_var_, state);
     }    
-    else if (action_name == "pick" && !has_book && action_parameters[2]==(book_name_+"2")) {
+    else if (action_name == "pick" && !has_book && action_parameters[2]==(book_name_+"2")
+        && book2_loc!=place_location_name_) {
         future_beliefs = MdpBasicActions::applyTake(agent_isAt, book2_loc, agent_name_,
          book2_loc_var_, state);
     }    
-    else if (action_name == "pick" && !has_book && action_parameters[2]==(book_name_+"3")) {
+    else if (action_name == "pick" && !has_book && action_parameters[2]==(book_name_+"3")
+        && book3_loc!=place_location_name_) {
         future_beliefs = MdpBasicActions::applyTake(agent_isAt, book3_loc, agent_name_,
          book3_loc_var_, state);
     }     

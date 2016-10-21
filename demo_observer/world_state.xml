@@ -9,14 +9,13 @@
 	<Fact model='PR2_ROBOT' subject='teabottle' predicate='type' value='bottle'/> 
 	<Fact model='PR2_ROBOT' subject='mug' predicate='capacity' value='0'/> 
 	<Fact model='PR2_ROBOT' subject='human1' predicate='hasDrunk' value='0'/> 
-	<Fact model='PR2_ROBOT' subject='human1' predicate='hot_day' value='f'/> 
-	<Fact model='PR2_ROBOT' subject='human1' predicate='cold_day' value='f'/> 
 	<Fact model='PR2_ROBOT' subject='mug' predicate='contains' value='nothing'/> 
 	<Fact model='PR2_ROBOT' subject='human1' predicate='hot_day' value='f'/> 
 	<Fact model='PR2_ROBOT' subject='human1' predicate='cold_day' value='f'/> 
-	<Fact model='PR2_ROBOT' subject='human1' predicate='evening' value='f'/> 
+	<Fact model='PR2_ROBOT' subject='human1' predicate='evening' value='t'/> 
 	<Fact model='PR2_ROBOT' subject='human1' predicate='sunday' value='f'/> 
 	<Fact model='PR2_ROBOT' subject='human1' predicate='time_to_leave' value='f'/>
+	<!-- <Fact model='PR2_ROBOT' subject='human1' predicate='has' value='mug'/> -->
 
 	<Fact model='PR2_ROBOT' subject='human2' predicate='hasDrunk' value='0'/> 
 	<Fact model='PR2_ROBOT' subject='human2' predicate='hot_day' value='f'/> 

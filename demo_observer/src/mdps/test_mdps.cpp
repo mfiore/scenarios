@@ -20,19 +20,19 @@ int main(int argc, char** argv) {
 
 	std::vector<std::string> locations = {"table", "sidetable", "bathroom", "outside", "shelf1", "shelf2", "shelf3", "sofa"};
 	  std::map<std::string, std::string> initial_state;
-	  initial_state["agent_isAt"] = "livingroom";
-	  initial_state["mug_isAt"] = "livingroom";
-	  initial_state["waterbottle_isAt"] = "livingroom";
-	  initial_state["teabottle_isAt"] = "livingroom";
+	  initial_state["agent_isAt"] = "table";
+	  initial_state["mug_isAt"] = "table";
+	  initial_state["waterbottle_isAt"] = "table";
+	  initial_state["teabottle_isAt"] = "shelf1";
 	  initial_state["has_drunk"] = "0";
 	  initial_state["mug_contains"] = "nothing";
 	  initial_state["waterbottle_capacity"] = "1";
 	  initial_state["teabottle_capacity"] = "1";
-	  initial_state["book1_isAt"] = "livingroom";
-	  initial_state["book2_isAt"] = "livingroom";
-	  initial_state["book3_isAt"] = "livingroom";
-	  initial_state["keys_isAt"] = "livingroom";
-	  initial_state["remote_isAt"] = "livingroom";
+	  initial_state["book1_isAt"] = "shelf2";
+	  initial_state["book2_isAt"] = "shelf2";
+	  initial_state["book3_isAt"] = "table";
+	  initial_state["keys_isAt"] = "shelf1";
+	  initial_state["remote_isAt"] = "table";
 	  VariableSet v_i;
 	  v_i.set = initial_state;
 
