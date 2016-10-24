@@ -1,0 +1,10 @@
+---
+handover:
+  appl_problem: /home/theworld/pomdpModels/handover_new_demo/handover.pomdpx
+  appl_policy: /home/theworld/pomdpModels/handover_new_demo/handover.out
+  time_to_engage: 10
+  time_to_touch: 10
+  max_errors: 3
+  extended_distance: 0.5
+  human_name: human1
+  handover_location: handover_location

@@ -7,76 +7,86 @@ import math
 import rospy
 
 class ObservationsCollector:
+
+
 	def __init__(self):
-		rospy.get_param("/handover/extended_distance",extended_distance_)
-		rospy.get_param("/handover/human_name",human_name_)
-		rospy.get_param("/handover/handover_location",handover_location_)
-		rospy.get_param("/situation_assessment/robot_name",robot_name_)
+		self.extended_distance_=rospy.get_param("/handover/extended_distance")
+		self.human_name_=rospy.get_param("/handover/human_name")
+		self.handover_location_=rospy.get_param("/handover/handover_location")
+		self.robot_name_=rospy.get_param("/situation_assessment/robot_name")		
+		
+		rospy.loginfo("ObservationsCollector extended distance is %f",self.extended_distance_)
+		rospy.loginfo("ObservationsCollector human name is %s",self.human_name_)
+		rospy.loginfo("ObservationsCollector handover_location  is %s",self.handover_location_)
+		rospy.loginfo("ObservationsCollector robot_name_ is %s",self.robot_name_)
 
 		rospy.wait_for_service('situation_assessment/query_database')
-		query_database_=rospy.ServiceProxy('situation_assessment/queryDatabase',situation_assessment_msgs.srv.QueryDatabase)
+		self.query_database_=rospy.ServiceProxy('situation_assessment/query_database',situation_assessment_msgs.srv.QueryDatabase)
+		rospy.loginfo("ObservationsCollector connected to query database")
 
 
-	def queryDatabase(fact):
+	def queryDatabase(self,fact):
+		result=[]
 		try:
-			query=situation_assessment_msgs.srv.QueryDatabase
-			query.query=fact
-			database_res=query_database_(query)
+			database_res=self.query_database_(fact)
 			if len(database_res.result)>0:
-				return database_res.result[0].value
-			else:
-				return [None]
+				result=database_res.result[0].value
 		except rospy.ServiceException as e:
-			rospy.logerror('HANDOVER error in contacting database %s',%e)
+			rospy.loginfo('HANDOVER error in contacting database %s',str(e))
+		return result
 
+	def isHandoverPose(self):
+		fact=situation_assessment_msgs.msg.Fact()
+		fact.model=str(self.robot_name_)
+		fact.subject=str(self.human_name_)+"_hand"
+		fact.predicate=["pose"]
 
-	def isHandoverPose:
-		fact=situation_assessment_msgs.msg.Fact
-		fact.model=robot_name_
-		fact.subject=human_name_+"_hand"
-		fact.predicate.append("pose")
+		hand_pose=self.queryDatabase(fact)[0:3]
 
-		hand_pose=queryDatabase(fact)[0:2]
+		fact.subject=self.human_name_+"_torso"
 
-		fact.subject=human_name_+"_body"
-
-		body_pose=queryDatabase(fact)[0:2]
+		body_pose=self.queryDatabase(fact)[0:3]
 
 		distance=math.sqrt(
-			(hand_pose[0]-body_pose[0])^2 +
-			(hand_pose[1]-body_pose[1]])^2 +
-			(hand_pose[2].body_pose[2])^2)
-		return str(distance<extended_distance_).lower()
 
-	def isHumanLocation():
-		fact=situation_assessment_msgs.msg.Fact
-		fact.model=robot_name_
-		fact.subject=human_name_+"_body"
-		fact.predicate.append("at")
+			(float(hand_pose[0])-float(body_pose[0]))**2 +
+			(float(hand_pose[1])-float(body_pose[1]))**2 + 
+			(float(hand_pose[2])-float(body_pose[2]))**2)
+		# print distance
+		# print self.extended_distance_
+		return str(distance>self.extended_distance_).lower()
 
-		res=queryDatabase(fact)
+	def isHumanLocation(self):
+		fact=situation_assessment_msgs.msg.Fact()
+		fact.model=str(self.robot_name_)
+		fact.subject=str(self.human_name_)+"_torso"
+		fact.predicate=['isAt']
+
+		res=self.queryDatabase(fact)
 		if (len(res)>0):
-			return str(res[0]==handover_location_).lower()
+			# rospy.loginfo("ObservationsCollector handover location is %s",res[0])
+			return str(res[0]==self.handover_location_).lower()
 		else:
+			# rospy.loginfo("ObservationsCollector no response for isAt")
 			return 'false'
 
-	def isTowardRobot():
-		fact=situation_assessment_msgs.msg.Fact
-		fact.model=robot_name_
-		fact.subject=human_name_+"_body"
-		fact.predicate.append("isFacing")
+	def isTowardRobot(self):
+		fact=situation_assessment_msgs.msg.Fact()
+		fact.model=str(self.robot_name_)
+		fact.subject=str(self.human_name_)+"_head"
+		fact.predicate=["isFacing"]
 
-		res=queryDatabase(fact)
+		res=self.queryDatabase(fact)
 		if (len(res)>0):
-			return str(res[0]==robot_name_).lower()
+			return str(res[0]==self.robot_name_).lower()
 		else:
 			return 'false'
-	def getFullState(task_completed,timer_engage_expired,timer_double_expired,
+			
+	def getFullState(self,task_completed,timer_engage_expired,timer_double_expired,
 						touch_timer_expired):
 		state=str(task_completed).lower()+str(timer_engage_expired).lower()
 
-		obs=isHandoverPose()+isHumanLocation()+str(timer_double_expired).lower()+str(touch_timer_expired).lower()+
-		isTowardRobot()
+		obs=self.isHandoverPose()+self.isHumanLocation()+str(timer_double_expired).lower()+str(touch_timer_expired).lower()+self.isTowardRobot()
 		return (state,obs)
 
 
