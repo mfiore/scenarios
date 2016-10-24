@@ -10,10 +10,10 @@ import appl.srv
 from enum import Enum
 import time
 from observations_collector import ObservationsCollector
+from robot_manip import RobotManip
+from robot_movement import RobotMovement
 
 #Parameters
-global robot_poses_
-global robot_locations_
 global time_to_engage_
 global time_to_touch_
 global max_errors_
@@ -31,9 +31,7 @@ class RobotPose(Enum):
 	retracted=1
 	abandoned=2
 
-class RobotLocations(Enum):
-	base=0
-	exchange=1
+
 
 
 global appl_started
@@ -52,9 +50,6 @@ def getRobotAction(state,observations):
 	except rospy.ServiceException as e:
 		print "Failed to call appl: "+e
 
-def moveArm(pose):
-	print "moving arm to "+str(pose)
-	return True
 
 def moveTo(location):
 	print "moving to "+str(location)
@@ -78,7 +73,7 @@ def checkTimers(started_engage_timer,started_touch_timer,
 	return (timer_engage_expired,timer_touch_expired)
 
 
-def handoverLoop(observations_collector):
+def handoverLoop(observations_collector,robot_manip):
 
 	task_completed=False #true when handover is completed
 	n_timer_engage_expired=0  #the number of times the engage timer expires in a row
@@ -93,7 +88,6 @@ def handoverLoop(observations_collector):
 
 	#the robot start with a non extended arm and at the base
 	arm_position=RobotPose.abandoned
-	robot_location=RobotLocations.base
 
 	n_error=0 #number of motion errors
 	action=None  #action to be performed by the robot from the collaborative planner
@@ -102,7 +96,9 @@ def handoverLoop(observations_collector):
 
 	#we quit with an abandon action
 	while not rospy.is_shutdown() and action!=RobotAction.abandon:
-		
+		if robot_manip.hasReleasedGripper:
+			task_completed=True
+
 		#at the start of the loop we get the next robot's action
 		if n_error<max_errors_:
 			#if n_error<max we invoke the collaborative planner
@@ -150,7 +146,7 @@ def handoverLoop(observations_collector):
 				started_engage_timer=False 
 				n_timer_engage_expired=0 #we also reboot this var and consider the event as a fresh start
 			if arm_position!=RobotPose.extended:
-				success=moveArm(RobotPose.extended)
+				success=robot_manip.moveArm(RobotPose.extended.name)
 				if not success:
 					rospy.loginfo("HANDOVER failed to move arm to extended. Num error %d",n_error)
 					n_error=n_error+1
@@ -161,15 +157,16 @@ def handoverLoop(observations_collector):
 				started_touch_timer=True
 				start_touch_timer=time.time()
 
-			#elif gripper_pressure:
-			#	openGripper
-			#continue timer
+			if not robot_manip.isWaitingGripper():
+				robot_manip.gripperRelease()
+
 		elif action==RobotAction.wait:
 			if started_touch_timer:
 				#if we switch to wait we stop the touch timer
 				started_touch_timer=False
 			if arm_position==RobotPose.extended:
-				success=moveArm(RobotPose.retracted)
+				robot_manip.cancelGripperRelease()
+				success=robot_manip.moveArm(RobotPose.retracted.name)
 				if not success:
 					rospy.loginfo("HANDOVER failed to move arm to wait. Num error %d",n_error)
 					n_error=n_error+1
@@ -183,8 +180,9 @@ def handoverLoop(observations_collector):
 			rospy.loginfo("HANDOVER robot is speaking")
 			#toadd speech
 		else:
-			moveArm(RobotPose.abandoned)
-			moveTo(RobotLocations.base)
+			robot_manip.cancelGripperRelease()
+			robot_manip.moveArm(RobotPose.abandoned.name)
+			robot_movement.moveTo('base')
 
 		if started_engage_timer:
 			end_engage_timer=time.time()
@@ -224,9 +222,6 @@ def addAreas():
 if __name__ == '__main__':
 	rospy.init_node("demo_handover")
 	rospy.loginfo("HANDOVER started node")
-	# robot_poses_=rospy.get_param("/handover/robot_poses")
-	# robot_locations_=rospy.get_param("/handover/robot_locations")
-	# 
 	global time_to_engage_
 	global time_to_touch_
 	global max_errors_
@@ -240,9 +235,13 @@ if __name__ == '__main__':
 	rospy.loginfo("HANDOVER max errors is %f",float(max_errors_))
 
 	addAreas()
-	moveArm(RobotPose.abandoned)
 
 	observations_collector=ObservationsCollector()
+	robot_manip=RobotManip()
+	robot_manip.moveArm(RobotPose.abandoned)
+
+	robot_movement=RobotMovement()
+
 	a=observations_collector.isHumanLocation()
 	print a
 	rate=rospy.Rate(2)
@@ -250,5 +249,5 @@ if __name__ == '__main__':
 		rospy.loginfo("HANDOVER waiting for human")
 		rate.sleep()
 	if not rospy.is_shutdown():
-		moveTo(RobotLocations.exchange)
-		handoverLoop(observations_collector)
+		robot_movement.moveTo('handover_location')
+		handoverLoop(observations_collector,robot_manip)
