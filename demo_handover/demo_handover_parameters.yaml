@@ -1,10 +1,11 @@
 ---
 handover:
+  #appl model and policy
   appl_problem: /home/theworld/pomdpModels/handover_new_demo/handover.pomdpx
   appl_policy: /home/theworld/pomdpModels/handover_new_demo/handover.out
-  time_to_engage: 10
-  time_to_touch: 10
-  max_errors: 3
-  extended_distance: 0.5
-  human_name: human1
-  handover_location: handover_location
+  time_to_engage: 10  #time to engage the user when waiting
+  time_to_touch: 10   #time that we wait the user to take the object when the arm is extended
+  max_errors: 3 #max errors in planning beforeq uitting
+  extended_distance: 0.5  #distance from head to hand to say that the arm is extended
+  human_name: human1 #name of the human
+  handover_location: handover_location #location where the handover is performed

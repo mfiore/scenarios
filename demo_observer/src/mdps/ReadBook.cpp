@@ -15,6 +15,7 @@
 
 ReadBook::ReadBook(string agent_name, string read_location, std::vector<std::string> locations,
     std::map<std::string,std::vector<std::string> > connections):
+
 agent_name_(agent_name),read_location_name_(read_location),connections_(connections) {
     agent_loc_var_ = agent_name_+"_isAt";
     book_name_="book";
@@ -37,9 +38,6 @@ agent_name_(agent_name),read_location_name_(read_location),connections_(connecti
     var_values[book3_loc_var_].push_back(agent_name_);
 
     this->var_values_ = var_values;
-
-    abstract_states_[agent_loc_var_]["human1"] = "other_agent";
-    abstract_states_[agent_loc_var_]["human2"] = "other_agent";
 
     std::vector<string> actions;
     for (string l : locations) {
